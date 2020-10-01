@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 const BlockConfiguration: React.FC<any> = (props: any) => {
   const classes = useStyles();
-  const configurationFormElements: any[] = Object.keys(props.formData).map((key: string, idx) => {
+  const configurationFormElements: any[] = Object.keys(props.formData).map((key: string, idx: number) => {
     const type = props.formData[key];
     const property = props.properties[key];
 
@@ -27,10 +27,10 @@ const BlockConfiguration: React.FC<any> = (props: any) => {
                 label: key,
                 type: type,
                 value: property || '',
-                change: (event: any) => props.changeOne(key, event.target.value)
+                onChange: (event: any) => props.changeOne(key, event.target.value)
             };
             return (
-                <div>
+                <div key={idx}>
                     <TextField {...inputProps}/>
                 </div>
             )
@@ -42,11 +42,11 @@ const BlockConfiguration: React.FC<any> = (props: any) => {
             value: property.selected,
             onChange: (event: any) => props.changeOne(key, {...property, selected: event.target.value})
         };
-        const menuItems = (property.options || []).map((value: string) => <MenuItem value={value}>{value}</MenuItem>)
+        const menuItems = (property.options || []).map((value: string, idx: number) => <option key={idx} value={value}>{value}</option>)
         return (
-            <FormControl>
+            <FormControl key={idx}>
                 <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                <Select {...inputProps}>
+                <Select native {...inputProps}>
                   {menuItems}
                 </Select>
             </FormControl>

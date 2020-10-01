@@ -9,7 +9,7 @@ const NumberComponent: React.FC<any> = (props: any) => {
     configApi.createProperty(PropertyType.STRING, 'value', '');
     configApi.createProperty(PropertyType.STRING, 'label', 'What is your age?');
     configApi.createProperty(PropertyType.STRING, 'name', 'age-question');
-  }, [props.configApi]);
+  }, []);
   const data = props.properties;
   return (
     <div>

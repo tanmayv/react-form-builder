@@ -8,7 +8,7 @@ const HeadingComponent: React.FC<any> = (props: any) => {
     const configApi = props.configApi;
     configApi.createProperty(PropertyType.STRING, 'label', 'Heading');
     configApi.createProperty(PropertyType.STRING_OPTIONS, 'variant', {options: ['h1', 'h2', 'h3', 'h4'], selected: 'h4'});
-  }, [props.configApi]);
+  }, []);
   const data = props.properties;
   const variant = data.variant && data.variant.selected;
   return (

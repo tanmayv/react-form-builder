@@ -13,7 +13,7 @@ class FormBuilder extends React.Component<BuilderProps, any> {
         const blockRenderedViewContainer = this.props.data.blocks.map((block, idx: number) => {
             const blockComponent = this.props.registry[block.type].handler;
             const { iconClass, title } = this.props.registry[block.type];
-            return (<BlockConfigurator title={title} iconClass={iconClass} block={blockComponent} data={block.data}></BlockConfigurator>)
+            return (<BlockConfigurator key={idx} title={title} iconClass={iconClass} block={blockComponent} data={block.data}></BlockConfigurator>)
         });
         const blockToolViewContainer = Object.keys(this.props.registry).map((key, idx) => {
             const config = this.props.registry[key];
