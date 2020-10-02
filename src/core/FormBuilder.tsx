@@ -21,18 +21,20 @@ export interface BlockData {
 }
 
 export interface FormBuilderProps {
-  data: { blocks: BlockData[] };
-  registry: { [key: string]: FormBuilderBlockConfig };
+  data?: { blocks: BlockData[] };
+	registry: { [key: string]: FormBuilderBlockConfig };
+	change: (blocks: BlockData[]) => void; 
 }
 
-const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry }) => {
-  const [blocks, setBlocks] = useState(data.blocks);
+const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => {
+  const [blocks, setBlocks] = useState(data && data.blocks || []);
 
   const reorderItems = useCallback((fromIndex, toIndex) => {
 			setBlocks((blocks) => {
 				const newBlocks = [...blocks];
 				const removedBlock = newBlocks.splice(fromIndex, 1);
-        newBlocks.splice(toIndex, 0, ...removedBlock);
+				newBlocks.splice(toIndex, 0, ...removedBlock);
+				change(newBlocks);
         return newBlocks;
       });
     }, [blocks]);
@@ -44,10 +46,20 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry }) => {
           id: blocks.length + 1,
           type: item.config,
           data: {},
-        });
+				});
+				change(newBlocks);
         return newBlocks;
       });
-    }, [blocks]);
+		}, [blocks]);
+	
+	const removedBlock = useCallback((id: any) => {
+		setBlocks((blocks) => {
+			const newBlocks = [...blocks];
+			const index = newBlocks.findIndex((block) => block.id === id)
+			newBlocks.splice(index, 1);
+			return newBlocks;
+		});
+	}, [blocks]);
 
   const blockList = blocks.map((block: BlockData) => {
     const formBlock = registry[block.type].handler;
@@ -59,6 +71,7 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry }) => {
           id={block.id}
 					title={title}
 					block={formBlock}
+					removeBlock={removedBlock}
           data={block.data}/>
       ),
     };

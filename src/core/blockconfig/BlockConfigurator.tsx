@@ -8,6 +8,7 @@ export interface BlockConfiguratorProps {
   title: string;
   id: any;
   block: React.FC<ConfigProps>;
+  removeBlock: (id: any) => void;
 }
 
 export interface ConfigProps {
@@ -17,7 +18,7 @@ export interface ConfigProps {
   createProperty: (type: PropertyType, name: string, defaultValue: any) => void;
 }
 
-const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({data, title, id, block}) => {
+const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({data, title, id, block, removeBlock}) => {
   const defaultForm = {
     'name': PropertyType.STRING,
     'label': PropertyType.STRING
@@ -64,6 +65,7 @@ const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({data, title, id, b
         </CardContent>
         <CardActions>
           <Button size="small" color="primary" onClick={toggleEditConfig}>{editConfig ? 'Apply' : 'Edit'}</Button>
+          <Button size="small" color="secondary" onClick={(event) => removeBlock(id)}>Delete</Button>
         </CardActions>
       </Card>
   );

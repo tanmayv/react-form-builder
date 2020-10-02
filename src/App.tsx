@@ -1,8 +1,8 @@
 import { AppBar, Button, Container, Icon, IconButton, makeStyles, TextField, Toolbar } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 
 import './App.css';
-import FormBuilder, { FormBuilderProps } from './core/FormBuilder';
+import FormBuilder, { BlockData, FormBuilderProps } from './core/FormBuilder';
 import CheckboxComponent from './custom-component/Checkbox';
 import EditTextComponent from './custom-component/EditTextComponent';
 import HeadingComponent from './custom-component/HeadingComponent';
@@ -25,7 +25,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+interface FormData {
+  title: string;
+  blocks?: BlockData[];
+}
+
 function App() {
+  const [ formData, setFormData ] = useState<FormData>({ title: 'Untitled Form' });
   const builderProps: FormBuilderProps = {
     registry: { 
       text: {
@@ -49,27 +55,7 @@ function App() {
         iconClass: 'add_circle'
       } 
     },
-    data: {
-      blocks: [
-        {
-          id: '1',
-          type: 'text',
-          data : {
-            heading: 'Main Heading'
-          }
-        },
-        {
-          id: '2',
-          type: 'number',
-          data : JSON.parse('{"value":"","label":"What is your new age?","name":"age-question"}')
-        },
-        {
-          id: '3',
-          type: 'heading',
-          data : JSON.parse('{"label":"What is your new age?"}')
-        }
-      ]
-    }
+    change: (blocks) => setFormData((oldFormData: FormData) => ({...oldFormData, blocks}))
   };
   const classes = useStyles();
 
@@ -80,12 +66,19 @@ function App() {
           <IconButton className={classes.menuButton} edge="start"  color="inherit" aria-label="menu">
             <Icon>description</Icon>
           </IconButton>
-          <div className={classes.title}><TextField className={classes.input} value='Untitled Form'></TextField></div>
+          <div className={classes.title}>
+            <TextField 
+              className={classes.input}
+              value={formData.title}
+              onChange={event => {event.persist(); setFormData((oldFormData) => ({...oldFormData, title: event.target.value}))}}
+            />
+            </div>
           <Button color="inherit">Load from json</Button>
         </Toolbar>
       </AppBar>
       <Container fixed>
         <div id="builder">
+          {JSON.stringify(formData)}
           <FormBuilder {...builderProps}></FormBuilder>
         </div>
       </Container>

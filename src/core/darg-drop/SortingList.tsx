@@ -47,8 +47,9 @@ const SortingList: React.FC<SortingListProps> = ({items, reorderItems, placehold
     }
   });
   return (
-    <div ref={drop}>
-      {itemsWithPlaceholder.map((item: SortingListItemType, index: number) => <ListItem key={item.id} index={index} item={item.item} reorderItems={reorderItems} setPlaceholderIndex={setPlaceholderIndex}/>)}
+    <div ref={drop} style={{paddingBottom: '100px', paddingTop: '10px'}}>
+      {items.length > 0 && itemsWithPlaceholder.map((item: SortingListItemType, index: number) => <ListItem key={item.id} index={index} item={item.item} reorderItems={reorderItems} setPlaceholderIndex={setPlaceholderIndex}/>)}
+      {items.length === 0 && <div style={{lineHeight: '200px', border: '2px dotted #ccc', backgroundColor: '#eee', textAlign: 'center'}}>Drop block here...</div>}
     </div>
   );
 };
