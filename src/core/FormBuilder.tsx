@@ -7,6 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import SortingList, { ExternalListItem } from "./darg-drop/SortingList";
 import BlockConfigurator, { ConfigProps } from "./blockconfig/BlockConfigurator";
+import { Button } from "@material-ui/core";
 
 export interface FormBuilderBlockConfig {
   iconClass: string;
@@ -23,6 +24,7 @@ export interface BlockData {
 export interface FormBuilderProps {
   data?: { blocks: BlockData[] };
 	registry: { [key: string]: FormBuilderBlockConfig };
+	viewOnly?: boolean;
 	change: (blocks: BlockData[]) => void; 
 }
 
@@ -34,7 +36,6 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
 				const newBlocks = [...blocks];
 				const removedBlock = newBlocks.splice(fromIndex, 1);
 				newBlocks.splice(toIndex, 0, ...removedBlock);
-				change(newBlocks);
         return newBlocks;
       });
     }, [blocks]);
@@ -47,9 +48,8 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
           type: item.config,
           data: {},
 				});
-				change(newBlocks);
         return newBlocks;
-      });
+			});
 		}, [blocks]);
 	
 	const removedBlock = useCallback((id: any) => {
@@ -96,12 +96,20 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
     <DndProvider backend={HTML5Backend}>
       <Grid container spacing={3}>
         <Grid item xs={10}>
-          <SortingList
-            reorderItems={reorderItems}
-            items={blockList}
-            externalItemDropped={addNewBlock}
-          ></SortingList>
-        </Grid>
+					<SortingList
+					reorderItems={reorderItems}
+					items={blockList}
+					externalItemDropped={addNewBlock}
+					></SortingList>
+					<Grid container spacing={3} alignItems='stretch' justify='flex-end'>
+						<Grid item>
+							<Button variant='contained' color='primary' onClick={(event) => change(blocks)}>Save</Button>
+						</Grid>
+						<Grid item>
+							<Button variant='contained' color='secondary' onClick={(event) => setBlocks(data?.blocks || [])}>Cancel</Button>
+						</Grid>
+					</Grid>
+				</Grid>
         <Grid item xs={2}>
           {blockToolViewContainer}
         </Grid>

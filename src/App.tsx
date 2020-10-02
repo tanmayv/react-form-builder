@@ -1,8 +1,9 @@
-import { AppBar, Button, Container, Icon, IconButton, makeStyles, TextField, Toolbar } from '@material-ui/core';
+import { AppBar, Button, Container, Icon, IconButton, makeStyles, Tab, Tabs, TextField, Toolbar } from '@material-ui/core';
 import React, { useState } from 'react';
 
 import './App.css';
 import FormBuilder, { BlockData, FormBuilderProps } from './core/FormBuilder';
+import FormRenderer from './core/FormRenderer';
 import CheckboxComponent from './custom-component/Checkbox';
 import EditTextComponent from './custom-component/EditTextComponent';
 import HeadingComponent from './custom-component/HeadingComponent';
@@ -32,6 +33,7 @@ interface FormData {
 
 function App() {
   const [ formData, setFormData ] = useState<FormData>({ title: 'Untitled Form' });
+  const [ currentTab, setCurrentTab ] = useState<number>(0);
   const builderProps: FormBuilderProps = {
     registry: { 
       text: {
@@ -53,7 +55,10 @@ function App() {
         handler: CheckboxComponent,
         title: 'Checkbox',
         iconClass: 'add_circle'
-      } 
+      }
+    },
+    data: {
+      blocks: formData.blocks || []
     },
     change: (blocks) => setFormData((oldFormData: FormData) => ({...oldFormData, blocks}))
   };
@@ -75,11 +80,20 @@ function App() {
             </div>
           <Button color="inherit">Load from json</Button>
         </Toolbar>
+        <Tabs
+            value={currentTab}
+            onChange={(event, newValue) => {setCurrentTab(newValue)}}
+            indicatorColor="secondary"
+            centered
+          >
+            <Tab label="Builder" />
+            <Tab label="Preview" />
+          </Tabs>
       </AppBar>
       <Container fixed>
         <div id="builder">
-          {JSON.stringify(formData)}
-          <FormBuilder {...builderProps}></FormBuilder>
+          {currentTab === 0 && <FormBuilder {...builderProps}/>}
+          {currentTab === 1 && <FormRenderer {...builderProps}/>}
         </div>
       </Container>
     </div>

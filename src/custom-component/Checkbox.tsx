@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import React, { useEffect } from 'react';
-import { PropertyType } from '../core/blockconfig/PropertyType';
 
+import { PropertyType } from '../core/blockconfig/PropertyType';
 const CheckboxComponent: React.FC<any> = ({createProperty, properties, change}) => {
   useEffect(() => {
     createProperty(PropertyType.STRING, 'label', 'What is this?');

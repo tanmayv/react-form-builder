@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import { PropertyType } from "../core/blockconfig/PropertyType";
 import { ConfigProps } from "../core/blockconfig/BlockConfigurator";
 
-const EditTextComponent: React.FC<ConfigProps> = ({ createProperty, properties, change }) => {
+const EditTextComponent: React.FC<ConfigProps> = ({createProperty, properties, change}) => {
   useEffect(() => {
     createProperty(PropertyType.STRING, "answer", "");
     createProperty(PropertyType.STRING, "label", "What is this?");
