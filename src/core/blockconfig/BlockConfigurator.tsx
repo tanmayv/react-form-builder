@@ -1,17 +1,31 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography } from '@material-ui/core';
 import React, { useCallback, useRef, useState } from 'react';
-import BlockConfiguration from './BlockConfiguration';
+import BlockConfigForm from './BlockConfiguration';
 import { PropertyType } from './PropertyType';
 
-const BlockConfigurator: React.FC<any> = (props: any) => {
+export interface BlockConfiguratorProps {
+  data: any;
+  title: string;
+  id: any;
+  block: React.FC<ConfigProps>;
+}
+
+export interface ConfigProps {
+  properties: any;
+  change: (properties: any) => void;
+  changeOne: (propertyName: string, propertyValue: any) => void;
+  createProperty: (type: PropertyType, name: string, defaultValue: any) => void;
+}
+
+const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({data, title, id, block}) => {
   const defaultForm = {
     'name': PropertyType.STRING,
     'label': PropertyType.STRING
   }
   const [formData, setFormData] = useState<any>(defaultForm);
-  const [properties, setProperties] = useState(props.data);
+  const [properties, setProperties] = useState(data);
   const [editConfig, setEditConfig] = useState(false);
-  const createPropertyCb = useCallback((type: PropertyType ,name: string, defaultValue: any) => {
+  const createProperty = useCallback((type: PropertyType ,name: string, defaultValue: any) => {
     setProperties((oldProperties: any) => {
       const newProperties: any =  {};
       newProperties[name] = defaultValue;
@@ -24,33 +38,28 @@ const BlockConfigurator: React.FC<any> = (props: any) => {
     });
   }, [ properties, formData ]);
 
-  const configApi = {
-    createProperty : createPropertyCb
-  }
+  const change = useCallback((newProperties: any) => {
+    setProperties((oldProperties: any) => ({...oldProperties, ...newProperties}));
+  }, [properties]);
 
-  const blockProps = {
-    properties: properties,
-    change: (newProperties: any) => {
-        setProperties((oldProperties: any) => ({...oldProperties, ...newProperties}));
-    },
-    changeOne: (key: string, value: any) => {
-      setProperties((oldProperties: any) => {
-        const newProperties = {...oldProperties};
-        newProperties[key] = value;
-        return newProperties;
-      });
-    },
-    configApi: configApi
-  }
+  const changeOne = useCallback((key: string, value: any) => {
+    setProperties((oldProperties: any) => {
+      const newProperties = {...oldProperties};
+      newProperties[key] = value;
+      return newProperties;
+    });
+  }, [properties]);
+
+  const blockProps = { properties, change, changeOne, createProperty };
 
   const toggleEditConfig = () => setEditConfig((current) => !current);
-  const Block = props.block;
+  const Block = block;
   return (
       <Card style={{margin: '16px'}}>
         <CardContent>
-          <Typography variant='h6'>{props.title || 'hello'}</Typography>
+          <Typography variant='h6'>{title || 'MISSING-TITLE'}</Typography>
           {!editConfig && <Block {...blockProps}></Block>}
-          {editConfig && <BlockConfiguration {...blockProps} formData={formData}></BlockConfiguration>}
+          {editConfig && <BlockConfigForm {...blockProps} formData={formData}></BlockConfigForm>}
           {editConfig && <code>Raw Data: <br/>{JSON.stringify(properties)}</code>}
         </CardContent>
         <CardActions>

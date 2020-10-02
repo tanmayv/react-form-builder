@@ -6,10 +6,36 @@ enum ItemTypes {
   EXTERNAL_LIST_ITEM = 'new-list-item'
 }
 
-const SortingList: React.FC<any> = ({items, reorderItems, placeholder, externalItemDropped}) => {
+type ComponentType = (JSX.Element | React.FC | React.Component);
+
+export interface SortingListItemType {
+  id: string;
+  item: ComponentType;
+}
+
+export interface ListItemProps {
+  index: number;
+  item: ComponentType;
+  reorderItems: (fromIndex: number, toIndex: number) => void;
+  setPlaceholderIndex: (index: number) => void;
+}
+
+export interface ExternalListItemProps {
+  item: ComponentType;
+  config: any;
+}
+
+export interface SortingListProps {
+  items: SortingListItemType[],
+  placeholder?: ComponentType,
+  reorderItems: (fromIndex: number, toIndex: number) => void,
+  externalItemDropped: (item: any, index: number) => void
+}
+
+const SortingList: React.FC<SortingListProps> = ({items, reorderItems, placeholder, externalItemDropped}) => {
   const [ placeHolderIndex, setPlaceholderIndex ] = useState(-1);
   const placeHolderItem = {
-    key: 'placeholder',
+    id: 'placeholder',
     item: !!placeholder ? placeholder : <div style={{height: '100px'}}></div>
   }
   const itemsWithPlaceholder = placeHolderIndex > -1? items.slice(0, placeHolderIndex).concat(placeHolderItem).concat(items.slice(placeHolderIndex)) : items;
@@ -22,20 +48,20 @@ const SortingList: React.FC<any> = ({items, reorderItems, placeholder, externalI
   });
   return (
     <div ref={drop}>
-      {itemsWithPlaceholder.map((item: any, index: Number) => <ListItem key={item.key} index={index} item={item.item} reorderItems={reorderItems} setPlaceholderIndex={setPlaceholderIndex}></ListItem>)}
+      {itemsWithPlaceholder.map((item: SortingListItemType, index: number) => <ListItem key={item.id} index={index} item={item.item} reorderItems={reorderItems} setPlaceholderIndex={setPlaceholderIndex}/>)}
     </div>
   );
 };
 
 
-const ExternalListItem: React.FC<any> = ({item, id, config}) => {
+const ExternalListItem: React.FC<ExternalListItemProps> = ({item, config}) => {
   const [, drag] = useDrag({
     item: { type: ItemTypes.EXTERNAL_LIST_ITEM, config },
   });
   return <div ref={drag}>{item}</div>;
 }
 
-const ListItem: React.FC<any> = ({index, reorderItems, item, setPlaceholderIndex}) => {
+const ListItem: React.FC<ListItemProps> = ({index, reorderItems, item, setPlaceholderIndex}) => {
   const ref = useRef<HTMLDivElement>(null);
   const hoverDeadZone = 50;
   const [{ isDragging }, drag] = useDrag({

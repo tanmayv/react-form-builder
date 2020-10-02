@@ -1,16 +1,32 @@
-import { Container } from '@material-ui/core';
+import { AppBar, Button, Container, Icon, IconButton, makeStyles, TextField, Toolbar } from '@material-ui/core';
 import React from 'react';
 
 import './App.css';
-import FormBuilder from './core/FormBuilder';
-import { BuilderProps } from './core/types/BuilderProps';
-import Checkbox from './custom-component/Checkbox';
+import FormBuilder, { FormBuilderProps } from './core/FormBuilder';
+import CheckboxComponent from './custom-component/Checkbox';
 import EditTextComponent from './custom-component/EditTextComponent';
 import HeadingComponent from './custom-component/HeadingComponent';
 import NumberComponent from './custom-component/NumberComponent';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  input: {
+    '& input.MuiInput-input' : {
+      color: 'white'
+    }
+  }
+}));
+
 function App() {
-  const builderProps: BuilderProps = {
+  const builderProps: FormBuilderProps = {
     registry: { 
       text: {
         handler: EditTextComponent,
@@ -28,7 +44,7 @@ function App() {
         iconClass: 'add_circle'
       },
       checkbox: {
-        handler: Checkbox,
+        handler: CheckboxComponent,
         title: 'Checkbox',
         iconClass: 'add_circle'
       } 
@@ -36,31 +52,44 @@ function App() {
     data: {
       blocks: [
         {
-          key: '1',
+          id: '1',
           type: 'text',
           data : {
             heading: 'Main Heading'
           }
         },
         {
-          key: '2',
+          id: '2',
           type: 'number',
           data : JSON.parse('{"value":"","label":"What is your new age?","name":"age-question"}')
         },
         {
-          key: '3',
+          id: '3',
           type: 'heading',
           data : JSON.parse('{"label":"What is your new age?"}')
         }
       ]
     }
   };
+  const classes = useStyles();
+
   return (
-    <Container fixed>
-      <div id="builder">
-        <FormBuilder {...builderProps}></FormBuilder>
-      </div>
-    </Container>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton className={classes.menuButton} edge="start"  color="inherit" aria-label="menu">
+            <Icon>description</Icon>
+          </IconButton>
+          <div className={classes.title}><TextField className={classes.input} value='Untitled Form'></TextField></div>
+          <Button color="inherit">Load from json</Button>
+        </Toolbar>
+      </AppBar>
+      <Container fixed>
+        <div id="builder">
+          <FormBuilder {...builderProps}></FormBuilder>
+        </div>
+      </Container>
+    </div>
   );
 }
 

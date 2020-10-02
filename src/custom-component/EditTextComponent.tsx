@@ -1,19 +1,24 @@
-import React, { useEffect } from 'react';
-import TextField from '@material-ui/core/TextField';
+import React, { useEffect } from "react";
+import TextField from "@material-ui/core/TextField";
 
-import { PropertyType } from '../core/blockconfig/PropertyType';
+import { PropertyType } from "../core/blockconfig/PropertyType";
+import { ConfigProps } from "../core/blockconfig/BlockConfigurator";
 
-const EditTextComponent: React.FC<any> = (props: any) => {
+const EditTextComponent: React.FC<ConfigProps> = ({ createProperty, properties, change }) => {
   useEffect(() => {
-    const configApi = props.configApi;
-    configApi.createProperty(PropertyType.STRING, 'answer', '');
-    configApi.createProperty(PropertyType.STRING, 'label', 'What is this?');
-    configApi.createProperty(PropertyType.BOOLEAN, 'required', false);
+    createProperty(PropertyType.STRING, "answer", "");
+    createProperty(PropertyType.STRING, "label", "What is this?");
+    createProperty(PropertyType.BOOLEAN, "required", false);
   }, []);
-  const data = props.properties;
   return (
     <div>
-      <TextField label={data.label} type='text' placeholder='answer here' value={data.answer || ''} onChange={(event) => props.change({answer : event.target.value})}/>
+      <TextField
+        label={properties.label}
+        type="text"
+        placeholder="answer here"
+        value={properties.answer || ""}
+        onChange={(event) => change({ answer: event.target.value })}
+      />
     </div>
   );
 };

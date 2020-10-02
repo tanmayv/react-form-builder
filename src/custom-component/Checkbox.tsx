@@ -2,11 +2,11 @@ import { Checkbox, FormControlLabel } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { PropertyType } from '../core/blockconfig/PropertyType';
 
-const CheckboxComponent: React.FC<any> = ({configApi, properties, change}) => {
+const CheckboxComponent: React.FC<any> = ({createProperty, properties, change}) => {
   useEffect(() => {
-    configApi.createProperty(PropertyType.STRING, 'label', 'What is this?');
-    configApi.createProperty(PropertyType.STRING_ARRAY, 'options', ['Yes', 'No']);
-    configApi.createProperty(PropertyType.STRING_ARRAY, 'selected', []);
+    createProperty(PropertyType.STRING, 'label', 'What is this?');
+    createProperty(PropertyType.STRING_ARRAY, 'options', ['Yes', 'No']);
+    createProperty(PropertyType.STRING_ARRAY, 'selected', []);
   }, []);
   const selectedSet = new Set(properties.selected || []);
   const onChange = ((option: string) => {

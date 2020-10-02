@@ -1,19 +1,20 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 
 import { PropertyType } from '../core/blockconfig/PropertyType';
+import { ConfigProps } from '../core/blockconfig/BlockConfigurator';
 
-const NumberComponent: React.FC<any> = (props: any) => {
-  useLayoutEffect(() => {
-    const configApi = props.configApi;
-    configApi.createProperty(PropertyType.STRING, 'value', '');
-    configApi.createProperty(PropertyType.STRING, 'label', 'What is your age?');
-    configApi.createProperty(PropertyType.STRING, 'name', 'age-question');
+const NumberComponent: React.FC<ConfigProps> = ({ createProperty, properties, change }) => {
+  useEffect(() => {
+    createProperty(PropertyType.NUMBER, 'value', 10);
+    createProperty(PropertyType.STRING, 'label', 'What is your age?');
+    createProperty(PropertyType.STRING, 'name', 'age-question');
+    createProperty(PropertyType.STRING, 'placeholder', 'enter age');
   }, []);
-  const data = props.properties;
+
   return (
     <div>
-      <TextField label={data.label} type='number' placeholder='answer here' value={data.value || ''} onChange={(event) => props.change({value : event.target.value})}/>
+      <TextField label={properties.label} type='number' placeholder='answer here' value={properties.value} onChange={(event) => change({value : event.target.value})}/>
     </div>
   );
 };
