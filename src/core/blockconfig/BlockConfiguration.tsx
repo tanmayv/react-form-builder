@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { PropertyType } from './PropertyType';
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 const BlockConfiguration: React.FC<any> = (props: any) => {
   const classes = useStyles();
+  const inputVariant = 'outlined';
   const configurationFormElements: any[] = Object.keys(props.formData).map((key: string, idx: number) => {
     const type = props.formData[key];
     const property = props.properties[key];
@@ -22,35 +23,32 @@ const BlockConfiguration: React.FC<any> = (props: any) => {
     switch(type) {
         case PropertyType.NUMBER :
         case PropertyType.STRING : {
-            const inputProps = {
-                name: key,
-                label: key,
-                type: type,
-                value: property || '',
-                onChange: (event: any) => props.changeOne(key, event.target.value)
-            };
-            return (
-                <div key={idx}>
-                    <TextField {...inputProps}/>
-                </div>
-            )
+          const onChange = (event: any) => props.changeOne(key, event.target.value); 
+            return <TextField variant={inputVariant} key={idx} name={key} label={key} type={type} value={property || ''} onChange={onChange}/>;
         }
         case PropertyType.STRING_OPTIONS :{
-          const inputProps = {
-            name: key,
-            label: key,
-            value: property.selected,
-            onChange: (event: any) => props.changeOne(key, {...property, selected: event.target.value})
+          const onChange = (event: any) => props.changeOne(key, {...property, selected: event.target.value});
+          const menuItems = (property.options || []).map((value: string, idx: number) => <option key={idx} value={value}>{value}</option>);
+          return (
+              <FormControl variant={inputVariant} key={idx}>
+                  <InputLabel id="demo-simple-select-label">{key}</InputLabel>
+                  <Select native name={key} label={key} value={property.selected} onChange={onChange}>
+                    {menuItems}
+                  </Select>
+              </FormControl>
+          );
         };
-        const menuItems = (property.options || []).map((value: string, idx: number) => <option key={idx} value={value}>{value}</option>)
-        return (
-            <FormControl key={idx}>
-                <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                <Select native {...inputProps}>
-                  {menuItems}
-                </Select>
-            </FormControl>
-        )
+        case PropertyType.STRING_ARRAY: {
+          const onChange = (event: any) => props.changeOne(key, event.target.value.split(',')); 
+            return <TextField variant={inputVariant} key={idx} name={key} label={key} type={type} value={(property || []).join(',')} onChange={onChange}/>;
+        }
+        case PropertyType.BOOLEAN: {
+          return (
+            <FormControlLabel
+              control={<Checkbox checked={property} onChange={(event) => props.changeOne(key, event.target.checked)} name={key} />}
+              label={key}
+            />
+          );
         }
     }
   });

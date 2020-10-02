@@ -1,3 +1,5 @@
+import { BlockData } from "./BlockData";
+
 export interface FormData {
-  blocks: {type: string, data:any}[]
+  blocks: any[]
 }

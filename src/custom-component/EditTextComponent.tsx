@@ -8,6 +8,7 @@ const EditTextComponent: React.FC<any> = (props: any) => {
     const configApi = props.configApi;
     configApi.createProperty(PropertyType.STRING, 'answer', '');
     configApi.createProperty(PropertyType.STRING, 'label', 'What is this?');
+    configApi.createProperty(PropertyType.BOOLEAN, 'required', false);
   }, []);
   const data = props.properties;
   return (
