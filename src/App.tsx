@@ -5,11 +5,15 @@ import './App.css';
 import FormBuilder, { BlockData, FormBuilderProps } from './core/FormBuilder';
 import FormRenderer from './core/FormRenderer';
 import CheckboxComponent from './custom-component/Checkbox';
+import DateComponent from './custom-component/DateComponent';
 import EditTextComponent from './custom-component/EditTextComponent';
 import HeadingComponent from './custom-component/HeadingComponent';
 import NumberComponent from './custom-component/NumberComponent';
+import ParagraphComponent from './custom-component/ParagraphComponent';
+import TextAreaComponent from './custom-component/TextAreaComponent';
 import Home from './Home';
 import JsonLoader from './JsonLoader';
+import JsonViewer from './JsonViewer';
 
 interface FormData {
   title: string;
@@ -35,11 +39,26 @@ const App: React.FC<{}> = () => {
         title: 'Heading',
         iconClass: 'text_fields'
       },
+      paragraph: {
+        handler: ParagraphComponent,
+        title: 'Paragraph',
+        iconClass: 'subject'
+      },
       checkbox: {
         handler: CheckboxComponent,
         title: 'Checkbox',
         iconClass: 'check_box'
-      }
+      },
+      date: {
+        handler: DateComponent,
+        title: 'Date Picker',
+        iconClass: 'today'
+      },
+      textArea: {
+        handler: TextAreaComponent,
+        title: 'Text Area',
+        iconClass: 'view_headline'
+      },
     },
     data: {
       blocks: formData.blocks
@@ -53,16 +72,9 @@ const App: React.FC<{}> = () => {
   const builderTab = (
     <div>
       <Typography variant='h4'>React Form Builder</Typography>
-      <Typography variant='caption'>Build froms by dragging tools from the right to the drop area. You can reorder form block as by dragging them.</Typography>
+      <Typography variant='caption'>Build forms by dragging tools from the right to the drop area. You can reorder form block as by dragging them.</Typography>
       <FormBuilder {...builderProps} key='builder'/>
-      <TextField
-          fullWidth
-          label="JSON Output"
-          multiline
-          rowsMax={5}
-          value={JSON.stringify(formData)}
-          variant="outlined"
-        />
+      <JsonViewer json={formData}></JsonViewer>
     </div>
   );
   const previewTab = <FormRenderer {...builderProps} title={formData.title}/>;
