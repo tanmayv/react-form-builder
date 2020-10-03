@@ -9,6 +9,7 @@ import { Typography } from "@material-ui/core";
 import SortingList, { ExternalListItem } from "./darg-drop/SortingList";
 import BlockConfigurator, { ConfigProps } from "./blockconfig/BlockConfigurator";
 import Tool from "./containers/Tool";
+import styled from "styled-components";
 
 export interface FormBuilderBlockConfig {
   iconClass: string;
@@ -28,6 +29,13 @@ export interface FormBuilderProps {
 	viewOnly?: boolean;
 	change: (cb: (currentBlocks: BlockData[]) => BlockData[]) => void; 
 }
+
+const StickyDiv = styled.div`
+  position: sticky;
+  top: 135px;
+  max-height: calc(100vh - 135px);
+  overflow-y: scroll;
+`;
 
 const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => {
   const blocks = (data && data.blocks) || [];
@@ -108,7 +116,9 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
 					/>
 				</Grid>
         <Grid item xs={3}>
-          {blockToolViewContainer}
+          <StickyDiv>
+            {blockToolViewContainer}
+          </StickyDiv>
         </Grid>
       </Grid>
     </DndProvider>

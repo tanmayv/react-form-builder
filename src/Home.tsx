@@ -37,7 +37,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = React.memo(({title, titleChange, action, currentTab, tabChange}) => {
   const classes = useStyles();
   return (
-    <AppBar position="static">
+    <AppBar position='sticky'>
       <Toolbar>
         <IconButton className={classes.menuButton} edge="start"  color="inherit" aria-label="menu">
           <Icon>description</Icon>
