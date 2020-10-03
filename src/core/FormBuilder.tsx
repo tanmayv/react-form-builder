@@ -25,26 +25,23 @@ export interface FormBuilderProps {
   data?: { blocks: BlockData[] };
 	registry: { [key: string]: FormBuilderBlockConfig };
 	viewOnly?: boolean;
-	change: (blocks: BlockData[]) => void; 
+	change: (cb: (currentBlocks: BlockData[]) => BlockData[]) => void; 
 }
 
 const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => {
-  const [blocks, setBlocks] = useState((data && data.blocks) || []);
-  useEffect(() => {
-    change(blocks);
-  }, [blocks]);
+  const blocks = (data && data.blocks) || [];
   
-  const reorderItems = useCallback((fromIndex, toIndex) => {
-			setBlocks((blocks) => {
-				const newBlocks = [...blocks];
-				const removedBlock = newBlocks.splice(fromIndex, 1);
-				newBlocks.splice(toIndex, 0, ...removedBlock);
-        return newBlocks;
-      });
-    }, [blocks]);
+  const reorderItems = (fromIndex: number, toIndex: number) => {
+    change((oldBlocks: BlockData[]) => {
+      const newBlocks = [...oldBlocks];
+      const removedBlock = newBlocks.splice(fromIndex, 1);
+      newBlocks.splice(toIndex, 0, ...removedBlock);
+      return newBlocks;
+    });
+  };
 
-  const addNewBlock = useCallback((item: any, index: number) => {
-      setBlocks((blocks) => {
+  const addNewBlock = (item: any, index: number) => {
+      change((blocks) => {
         const newBlocks = [...blocks];
         newBlocks.splice(index, 0, {
           id: blocks.length + 1,
@@ -53,25 +50,25 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
 				});
         return newBlocks;
 			});
-		}, [blocks]);
+		};
 	
-	const removedBlock = useCallback((id: any) => {
-		setBlocks((blocks) => {
+	const removedBlock = (id: any) => {
+		change((blocks) => {
 			const newBlocks = [...blocks];
 			const index = newBlocks.findIndex((block) => block.id === id)
 			newBlocks.splice(index, 1);
 			return newBlocks;
 		});
-  }, [blocks]);
+  };
   
-  const updateBlock = useCallback((id: any, data) => {
-    setBlocks((blocks) => {
+  const updateBlock = (id: any, data: any) => {
+    change((blocks) => {
 			const newBlocks = [...blocks];
 			const block = newBlocks.find((block) => block.id === id)
 			if (block) block.data = data;
 			return newBlocks;
 		});
-  }, [blocks]);
+  };
 
   const blockList = blocks.map((block: BlockData, index: number) => {
     const formBlock = registry[block.type].handler;

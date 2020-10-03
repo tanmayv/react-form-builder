@@ -8,6 +8,7 @@ import CheckboxComponent from './custom-component/Checkbox';
 import EditTextComponent from './custom-component/EditTextComponent';
 import HeadingComponent from './custom-component/HeadingComponent';
 import NumberComponent from './custom-component/NumberComponent';
+import JsonLoader from './JsonLoader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
 
 interface FormData {
   title: string;
-  blocks?: BlockData[];
+  blocks: BlockData[];
 }
 
 function App() {
-  const [ formData, setFormData ] = useState<FormData>({ title: 'Untitled Form' });
+  const [ formData, setFormData ] = useState<FormData>({ title: 'Untitled Form', blocks: [] });
   const [ currentTab, setCurrentTab ] = useState<number>(0);
   
   const builderProps: FormBuilderProps = {
@@ -59,9 +60,9 @@ function App() {
       }
     },
     data: {
-      blocks: formData.blocks || []
+      blocks: formData.blocks
     },
-    change: (blocks) => setFormData((oldFormData: FormData) => ({...oldFormData, blocks}))
+    change: (newBlocks) => setFormData((oldFormData: FormData) => ({...oldFormData, blocks: newBlocks(oldFormData.blocks)}))
   };
   const classes = useStyles();
 
@@ -79,7 +80,7 @@ function App() {
               onChange={event => {event.persist(); setFormData((oldFormData) => ({...oldFormData, title: event.target.value}))}}
             />
             </div>
-          <Button color="inherit">Load from json</Button>
+            <JsonLoader loadJson={(jsonData: any) => setFormData(jsonData)}/>
         </Toolbar>
         <Tabs
             value={currentTab}
@@ -107,7 +108,6 @@ function App() {
         }
         { currentTab === 1 && <FormRenderer {...builderProps} title={formData.title}/>}
       </Container>
-      
     </div>
   );
 }
