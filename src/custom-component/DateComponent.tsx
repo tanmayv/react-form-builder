@@ -12,15 +12,15 @@ const DateComponent: React.FC<ConfigProps> = ({ createProperty, properties, chan
     createProperty(PropertyType.STRING_OPTIONS, 'type', {options: typeOptions, selected: 'date'});
   }, []);
   return <TextField
-      name={properties.name}
-      label={properties.label}
-      type={properties.type?.selected}
-      value={properties.value || ''}
-      onChange={e => change({value: e.target.value})}
-      InputLabelProps={{
-        shrink: true,
-      }}
-  />;
+          fullWidth
+          name={properties.name}
+          label={properties.label}
+          type={properties.type?.selected}
+          value={properties.value || ''}
+          onChange={e => change({value: e.target.value})}
+          InputLabelProps={{
+            shrink: true,
+          }}/>;
   
 };
 

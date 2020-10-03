@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { AppBar, Container, Icon, IconButton, makeStyles, Tab, Tabs, Toolbar } from '@material-ui/core';
+import { GitHub } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -37,6 +38,7 @@ const Home: React.FC<HomeProps> = ({leftTab, rightTab, action, title}) => {
             <Icon>description</Icon>
           </IconButton>
           <div className={classes.title}>{title}</div>
+          <IconButton><a style={{color: 'white'}} href='https://github.com/tanmayv/react-form-builder' target='_blank'><GitHub /></a></IconButton>
           {action}
         </Toolbar>
         <Tabs
