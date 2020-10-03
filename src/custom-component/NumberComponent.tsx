@@ -14,7 +14,7 @@ const NumberComponent: React.FC<ConfigProps> = ({ createProperty, properties, ch
 
   return (
     <div>
-      <TextField label={properties.label} type='number' placeholder='answer here' value={properties.value || 0} onChange={(event) => change({value : event.target.value})}/>
+      <TextField fullWidth label={properties.label} type='number' placeholder='answer here' value={properties.value || 0} onChange={(event) => change({value : event.target.value})}/>
     </div>
   );
 };

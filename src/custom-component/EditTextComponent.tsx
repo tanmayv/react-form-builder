@@ -13,6 +13,7 @@ const EditTextComponent: React.FC<ConfigProps> = ({createProperty, properties, c
   return (
     <div>
       <TextField
+        fullWidth
         label={properties.label}
         type="text"
         placeholder="answer here"

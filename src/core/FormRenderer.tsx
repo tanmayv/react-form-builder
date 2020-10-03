@@ -1,8 +1,10 @@
+import { Container, Grid, Paper, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
-import { BlockData, FormBuilderProps } from './FormBuilder';
 
-const FormRenderer: React.FC<FormBuilderProps> = ({registry, data}) => {
-  const [formData, setFormData] = useState(data && data.blocks || []);
+import { BlockData } from './FormBuilder';
+
+const FormRenderer: React.FC<any> = ({registry, data, title}) => {
+  const [formData, setFormData] = useState((data && data.blocks) || []);
   
   const blockList: any[] = formData.map((block: BlockData, idx: number) => {
     const FormBlock = registry[block.type].handler;
@@ -16,12 +18,22 @@ const FormRenderer: React.FC<FormBuilderProps> = ({registry, data}) => {
       changeOne: () => {},
       createProperty: () => {}
     }
-    return <FormBlock key={block.id} {...props}></FormBlock>
+    return <Grid item xs={12} key={block.id}><FormBlock {...props}></FormBlock></Grid>
   });
-  return <div>
-    <div>{JSON.stringify(formData)}</div>
-    <div>{blockList}</div>
-  </div>
+  return (
+    <Container maxWidth='sm' style={{paddingTop: '16px'}}>
+      <Paper style={{padding: '16px'}}>
+        <form>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant='h3'>{title}</Typography>
+            </Grid>
+            {blockList}
+          </Grid>
+        </form>
+      </Paper>
+    </Container>
+  );
 };
 
 export default FormRenderer;

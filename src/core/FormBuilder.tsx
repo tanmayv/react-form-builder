@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Icon from "@material-ui/core/Icon";
@@ -7,7 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import SortingList, { ExternalListItem } from "./darg-drop/SortingList";
 import BlockConfigurator, { ConfigProps } from "./blockconfig/BlockConfigurator";
-import { Button } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 export interface FormBuilderBlockConfig {
   iconClass: string;
@@ -29,8 +29,11 @@ export interface FormBuilderProps {
 }
 
 const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => {
-  const [blocks, setBlocks] = useState(data && data.blocks || []);
-
+  const [blocks, setBlocks] = useState((data && data.blocks) || []);
+  useEffect(() => {
+    change(blocks);
+  }, [blocks]);
+  
   const reorderItems = useCallback((fromIndex, toIndex) => {
 			setBlocks((blocks) => {
 				const newBlocks = [...blocks];
@@ -59,20 +62,30 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
 			newBlocks.splice(index, 1);
 			return newBlocks;
 		});
-	}, [blocks]);
+  }, [blocks]);
+  
+  const updateBlock = useCallback((id: any, data) => {
+    setBlocks((blocks) => {
+			const newBlocks = [...blocks];
+			const block = newBlocks.find((block) => block.id === id)
+			if (block) block.data = data;
+			return newBlocks;
+		});
+  }, [blocks]);
 
-  const blockList = blocks.map((block: BlockData) => {
+  const blockList = blocks.map((block: BlockData, index: number) => {
     const formBlock = registry[block.type].handler;
     const { title } = registry[block.type];
     return {
       id: block.id,
       item: (
-        <BlockConfigurator
-          id={block.id}
-					title={title}
-					block={formBlock}
-					removeBlock={removedBlock}
-          data={block.data}/>
+          <BlockConfigurator
+            id={block.id}
+            title={title}
+            block={formBlock}
+            removeBlock={removedBlock}
+            updateBlock={updateBlock}
+            data={block.data}/>
       ),
     };
   });
@@ -80,10 +93,10 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
   const blockToolViewContainer = Object.keys(registry).map((blockType: string, idx: number) => {
     const config = registry[blockType];
     const item = (
-      <Paper style={{ margin: "16px", padding: "8px" }} key={idx}>
-        <Grid container alignItems={"center"}>
-          <Icon>{config.iconClass}</Icon>
-          <h3>{config.title}</h3>
+      <Paper variant="outlined" style={{ marginTop: "8px" }} key={idx}>
+        <Grid container alignItems="center" justify="center" spacing={1}>
+          <Grid item><Icon>{config.iconClass}</Icon></Grid>
+          <Grid item><Typography variant='subtitle1'>{config.title}</Typography></Grid>
         </Grid>
       </Paper>
     );
@@ -95,22 +108,14 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
   return (
     <DndProvider backend={HTML5Backend}>
       <Grid container spacing={3}>
-        <Grid item xs={10}>
+        <Grid item xs={9}>
 					<SortingList
 					reorderItems={reorderItems}
 					items={blockList}
 					externalItemDropped={addNewBlock}
 					></SortingList>
-					<Grid container spacing={3} alignItems='stretch' justify='flex-end'>
-						<Grid item>
-							<Button variant='contained' color='primary' onClick={(event) => change(blocks)}>Save</Button>
-						</Grid>
-						<Grid item>
-							<Button variant='contained' color='secondary' onClick={(event) => setBlocks(data?.blocks || [])}>Cancel</Button>
-						</Grid>
-					</Grid>
 				</Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           {blockToolViewContainer}
         </Grid>
       </Grid>

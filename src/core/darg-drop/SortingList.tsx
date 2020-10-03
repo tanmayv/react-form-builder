@@ -59,7 +59,7 @@ const ExternalListItem: React.FC<ExternalListItemProps> = ({item, config}) => {
   const [, drag] = useDrag({
     item: { type: ItemTypes.EXTERNAL_LIST_ITEM, config },
   });
-  return <div ref={drag}>{item}</div>;
+  return <div ref={drag} style={{cursor: 'grab'}}>{item}</div>;
 }
 
 const ListItem: React.FC<ListItemProps> = ({index, reorderItems, item, setPlaceholderIndex}) => {
@@ -102,7 +102,7 @@ const ListItem: React.FC<ListItemProps> = ({index, reorderItems, item, setPlaceh
   });
   const opacity = isDragging ? 0 : 1
   drag(drop(ref));
-  return <div style={{opacity}}ref={ref}>{item}</div>
+  return <div style={{opacity, cursor: 'move'}} ref={ref}>{item}</div>
 };
 
 export { ExternalListItem };

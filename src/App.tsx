@@ -34,27 +34,28 @@ interface FormData {
 function App() {
   const [ formData, setFormData ] = useState<FormData>({ title: 'Untitled Form' });
   const [ currentTab, setCurrentTab ] = useState<number>(0);
+  
   const builderProps: FormBuilderProps = {
     registry: { 
       text: {
         handler: EditTextComponent,
         title: 'Edit Text',
-        iconClass: 'add_circle'
+        iconClass: 'text_format'
       },
       number: {
         handler: NumberComponent,
         title: 'Number',
-        iconClass: 'add_circle'
+        iconClass: 'plus_one'
       },
       heading: {
         handler: HeadingComponent,
         title: 'Heading',
-        iconClass: 'add_circle'
+        iconClass: 'text_fields'
       },
       checkbox: {
         handler: CheckboxComponent,
         title: 'Checkbox',
-        iconClass: 'add_circle'
+        iconClass: 'check_box'
       }
     },
     data: {
@@ -90,12 +91,23 @@ function App() {
             <Tab label="Preview" />
           </Tabs>
       </AppBar>
-      <Container fixed>
-        <div id="builder">
-          {currentTab === 0 && <FormBuilder {...builderProps}/>}
-          {currentTab === 1 && <FormRenderer {...builderProps}/>}
-        </div>
+      <Container maxWidth='md' style={{paddingTop: '16px'}}>
+        { currentTab === 0 && 
+          <div>
+            <FormBuilder {...builderProps} key='builder'/>
+            <TextField
+                fullWidth
+                label="JSON Output"
+                multiline
+                rowsMax={5}
+                value={JSON.stringify(formData)}
+                variant="outlined"
+              />
+          </div>
+        }
+        { currentTab === 1 && <FormRenderer {...builderProps} title={formData.title}/>}
       </Container>
+      
     </div>
   );
 }

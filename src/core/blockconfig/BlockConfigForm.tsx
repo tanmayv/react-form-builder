@@ -62,10 +62,11 @@ const BlockConfigForm: React.FC<BlockConfigFormProps> = ({formData, properties, 
         );
       };
     }
+    return <div>Input not found</div>;
   });
   return (
-    <div>
-      <Typography variant='subtitle2'>Block Configuration</Typography>
+    <div style={{padding: '8px 16px'}}>
+      <Typography variant='subtitle2' component='h1'>Block Configuration</Typography>
       <form className={classes.root}>
           {configurationFormElements}
       </form>
