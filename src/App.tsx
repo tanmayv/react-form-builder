@@ -11,6 +11,7 @@ import HeadingComponent from './custom-component/HeadingComponent';
 import ImageComponent from './custom-component/ImageComponent';
 import NumberComponent from './custom-component/NumberComponent';
 import ParagraphComponent from './custom-component/ParagraphComponent';
+import RatingComponent from './custom-component/RatingComponent';
 import TextAreaComponent from './custom-component/TextAreaComponent';
 import Home from './Home';
 import JsonLoader from './JsonLoader';
@@ -63,6 +64,11 @@ const App: React.FC<{}> = () => {
       image: {
         handler: ImageComponent,
         title: 'Image',
+        iconClass: 'wallpaper'
+      },
+      rating: {
+        handler: RatingComponent,
+        title: 'Rating',
         iconClass: 'wallpaper'
       },
     },
