@@ -1,6 +1,5 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Collapse, Icon, IconButton, Typography } from '@material-ui/core';
+import { Card, CardActions, CardContent, CardHeader, Collapse, Icon, IconButton } from '@material-ui/core';
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import BlockConfigForm from './BlockConfigForm';
 import { PropertyType } from './PropertyType';
@@ -64,7 +63,7 @@ const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({data, title, id, b
   const toggleEditConfig = () => setEditConfig((current) => !current);
   const Block = block;
   return (
-      <Card style={{margin: '16px'}}>
+      <Card style={{marginBottom: '16px'}}>
         <CardHeader
           title={title}
           action={

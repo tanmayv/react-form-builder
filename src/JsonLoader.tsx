@@ -1,5 +1,4 @@
-import { AppBar, Button, Container, Dialog, Grid, Icon, IconButton, makeStyles, Slide, TextField, Toolbar, Typography } from '@material-ui/core';
-import { stringify } from 'querystring';
+import { AppBar, Button, Container, Dialog, Grid, Icon, IconButton, makeStyles, TextField, Toolbar, Typography } from '@material-ui/core';
 import React from 'react';
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -20,7 +19,6 @@ const JsonLoader: React.FC<any> = ({loadJson}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [jsonString, setJsonString] = React.useState('{}');
-  const [isJsonValid, setJsonValid] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,7 +42,7 @@ const JsonLoader: React.FC<any> = ({loadJson}) => {
           <AppBar className={classes.appBar}>
             <Toolbar>
               <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-                <Icon>documents</Icon>
+                <Icon>get_app</Icon>
               </IconButton>
               <Typography variant="h6" className={classes.title}>
                 JSON loader

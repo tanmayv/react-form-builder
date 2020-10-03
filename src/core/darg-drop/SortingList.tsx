@@ -35,7 +35,7 @@ export interface SortingListProps {
 const DefaultPlaceholder = styled.div`
   height: 100px;
   border: 2px dotted #ccc;
-  margin: 0px 16px;
+  margin-bottom: 16px;
 `;
 const SortingList: React.FC<SortingListProps> = ({items, reorderItems, placeholder, externalItemDropped}) => {
   const [ placeHolderIndex, setPlaceholderIndex ] = useState(-1);

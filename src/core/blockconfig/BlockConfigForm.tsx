@@ -1,18 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Checkbox, FormControl, FormControlLabel, InputLabel, Select, Typography } from '@material-ui/core';
+import { Checkbox, FormControl, FormControlLabel, Grid, InputLabel, Select, Typography } from '@material-ui/core';
 
 import { PropertyType } from './PropertyType';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
-}));
 
 export interface BlockConfigFormProps {
   formData: any;
@@ -21,7 +12,6 @@ export interface BlockConfigFormProps {
 }
 
 const BlockConfigForm: React.FC<BlockConfigFormProps> = ({formData, properties, changeOne}) => {
-  const classes = useStyles();
   const inputVariant = 'outlined';
   
   const configurationFormElements: any[] = Object.keys(formData).map((key: string, idx: number) => {
@@ -32,20 +22,22 @@ const BlockConfigForm: React.FC<BlockConfigFormProps> = ({formData, properties, 
       case PropertyType.NUMBER :
       case PropertyType.STRING : {
         const onChange = (event: any) => changeOne(key, event.target.value); 
-          return <TextField variant={inputVariant} key={idx} name={key} label={key} type={type} value={property || ''} onChange={onChange}/>;
+          return <Grid item key={key} sm={6} xs={12}><TextField fullWidth variant={inputVariant} name={key} label={key} type={type} value={property || ''} onChange={onChange}/></Grid>;
       }
 
       case PropertyType.STRING_ARRAY: {
         const onChange = (event: any) => changeOne(key, event.target.value.split(',')); 
-          return <TextField variant={inputVariant} key={idx} name={key} label={key} type={type} value={(property || []).join(',')} onChange={onChange}/>;
+          return <Grid item key={key} sm={6} xs={12}><TextField fullWidth variant={inputVariant} name={key} label={key} type={type} value={(property || []).join(',')} onChange={onChange}/></Grid>;
       }
       
       case PropertyType.BOOLEAN: {
         return (
-          <FormControlLabel key={key}
-            control={<Checkbox checked={property} onChange={(event) => changeOne(key, event.target.checked)} name={key} />}
-            label={key}
-          />
+          <Grid item key={key} sm={6} xs={12}>
+            <FormControlLabel
+              control={<Checkbox checked={property} onChange={(event) => changeOne(key, event.target.checked)} name={key} />}
+              label={key}
+            />
+          </Grid>
         );
       }
 
@@ -53,12 +45,14 @@ const BlockConfigForm: React.FC<BlockConfigFormProps> = ({formData, properties, 
         const onChange = (event: any) => changeOne(key, {...property, selected: event.target.value});
         const menuItems = (property.options || []).map((value: string, idx: number) => <option key={idx} value={value}>{value}</option>);
         return (
-            <FormControl variant={inputVariant} key={idx}>
+          <Grid item key={idx} sm={6} xs={12}>
+            <FormControl variant={inputVariant}>
                 <InputLabel id="demo-simple-select-label">{key}</InputLabel>
-                <Select native name={key} label={key} value={property.selected} onChange={onChange}>
+                <Select fullWidth native name={key} label={key} value={property.selected} onChange={onChange}>
                   {menuItems}
                 </Select>
             </FormControl>
+          </Grid>
         );
       };
     }
@@ -66,9 +60,13 @@ const BlockConfigForm: React.FC<BlockConfigFormProps> = ({formData, properties, 
   });
   return (
     <div style={{padding: '8px 16px'}}>
-      <Typography variant='subtitle2' component='h1'>Block Configuration</Typography>
-      <form className={classes.root}>
+      <form>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Typography variant='subtitle2' component='h1'>Block Configuration</Typography>
+          </Grid>
           {configurationFormElements}
+        </Grid>
       </form>
     </div>
   );
