@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 
 import { BlockData } from './FormBuilder';
 
-const FormRenderer: React.FC<any> = ({registry, data, title}) => {
-  const [formData, setFormData] = useState((data && data.blocks) || []);
+const FormRenderer: React.FC<any> = ({registry, data, title, change}) => {
+  const blocks = (data && data.blocks) || [];
   
-  const blockList: any[] = formData.map((block: BlockData, idx: number) => {
+  const blockList: any[] = blocks.map((block: BlockData, idx: number) => {
     const FormBlock = registry[block.type].handler;
     const props = {
       properties: block.data,
-      change: (newProperties: any) => setFormData((oldFormData: any[]) => {
+      change: (newProperties: any) => change((oldFormData: any[]) => {
         const newFormData = [...oldFormData];
         newFormData[idx].data = {...oldFormData[idx].data, ...newProperties}
         return newFormData;
