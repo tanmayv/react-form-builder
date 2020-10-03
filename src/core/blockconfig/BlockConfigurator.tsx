@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, CardHeader, Collapse, Icon, IconButton, Typography } from '@material-ui/core';
+import { Card, CardActions, CardContent, CardHeader, Collapse, Grid, Icon, IconButton, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import BlockConfigForm from './BlockConfigForm';
@@ -70,23 +70,27 @@ const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({index, data, title
           <CardHeader
             title={`${title}:${properties.name || ''}`}
             titleTypographyProps={{variant: 'h6'}}
-            action={
-              <div>
+          ></CardHeader>
+          <CardActions>
+            <Grid container justify='space-between'>
+              <Grid item>
                 <IconButton onClick={() => reorderBlocks(index, index - 1)}>
                   <Icon>arrow_upward</Icon>
                 </IconButton>
                 <IconButton onClick={() => reorderBlocks(index, index + 1)}>
                   <Icon>arrow_downward</Icon>
                 </IconButton>
+              </Grid>
+              <Grid item>
                 <IconButton onClick={toggleEditConfig}>
                   <Icon>{editConfig ? 'expand_less': 'expand_more'}</Icon>
                 </IconButton>
                 <IconButton color='secondary' onClick={(event) => removeBlock(id)}>
                   <Icon>delete</Icon>
                 </IconButton>
-              </div>
-            }
-          ></CardHeader>
+              </Grid>
+            </Grid>
+          </CardActions>
           <Collapse in={editConfig} timeout="auto" unmountOnExit>
             <CardContent>
             <Typography variant='subtitle2' component='h1'>Preview</Typography>
