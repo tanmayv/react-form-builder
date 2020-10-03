@@ -88,7 +88,7 @@ const App: React.FC<{}> = () => {
   const builderTab = (
     <div>
       <Typography variant='h4'>React Form Builder</Typography>
-      <Typography variant='caption'>Build forms by dragging tools from the right to the drop area. You can reorder form block as by dragging them.</Typography>
+      <Typography variant='caption'>Create forms by clicking or dragging tools from the right to the drop area. You can reorder form block by dragging them.</Typography>
       <FormBuilder {...builderProps} key='builder'/>
       <JsonViewer json={formData}></JsonViewer>
     </div>
