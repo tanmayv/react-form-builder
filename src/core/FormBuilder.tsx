@@ -8,7 +8,6 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import SortingList, { ExternalListItem } from "./darg-drop/SortingList";
 import BlockConfigurator, { ConfigProps } from "./blockconfig/BlockConfigurator";
 import { Typography } from "@material-ui/core";
-import { TouchBackend } from "react-dnd-touch-backend";
 
 export interface FormBuilderBlockConfig {
   iconClass: string;
@@ -32,9 +31,10 @@ export interface FormBuilderProps {
 const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => {
   const blocks = (data && data.blocks) || [];
   
-  const reorderItems = (fromIndex: number, toIndex: number) => {
+  const reorderBlocks = (fromIndex: number, toIndex: number) => {
     change((oldBlocks: BlockData[]) => {
       const newBlocks = [...oldBlocks];
+      toIndex = Math.max(0, Math.min(toIndex, newBlocks.length - 1));
       const removedBlock = newBlocks.splice(fromIndex, 1);
       newBlocks.splice(toIndex, 0, ...removedBlock);
       return newBlocks;
@@ -78,11 +78,13 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
       id: block.id,
       item: (
           <BlockConfigurator
+            index={index}
             id={block.id}
             title={title}
             block={formBlock}
             removeBlock={removedBlock}
             updateBlock={updateBlock}
+            reorderBlocks={reorderBlocks}
             data={block.data}/>
       ),
     };
@@ -91,7 +93,7 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
   const blockToolViewContainer = Object.keys(registry).map((blockType: string, idx: number) => {
     const config = registry[blockType];
     const item = (
-      <Paper variant="outlined" style={{ marginTop: "8px" }} key={idx}>
+      <Paper variant="outlined" style={{ marginTop: "8px" }} key={idx} onClick={e => addNewBlock({config : blockType}, 0)}>
         <Grid container alignItems="center" justify="center" spacing={1}>
           <Grid item><Icon>{config.iconClass}</Icon></Grid>
           <Grid item><Typography variant='subtitle1'>{config.title}</Typography></Grid>
@@ -104,11 +106,11 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
   });
 
   return (
-    <DndProvider backend={TouchBackend}>
+    <DndProvider backend={HTML5Backend}>
       <Grid container spacing={3}>
         <Grid item xs={9}>
 					<SortingList
-            reorderItems={reorderItems}
+            reorderItems={reorderBlocks}
             items={blockList}
             externalItemDropped={addNewBlock}
 					/>

@@ -8,9 +8,11 @@ export interface BlockConfiguratorProps {
   data: any;
   title: string;
   id: any;
+  index: number;
   block: React.FC<ConfigProps>;
   removeBlock: (id: any) => void;
   updateBlock: (id: any, data: any) => void;
+  reorderBlocks: (fromIndex: number, toIndex: number) => void;
 }
 
 export interface ConfigProps {
@@ -20,7 +22,7 @@ export interface ConfigProps {
   createProperty: (type: PropertyType, name: string, defaultValue: any) => void;
 }
 
-const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({data, title, id, block, removeBlock, updateBlock}) => {
+const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({index, data, title, id, block, removeBlock, updateBlock, reorderBlocks}) => {
   const defaultForm = {
     'name': PropertyType.STRING,
     'label': PropertyType.STRING
@@ -68,6 +70,12 @@ const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({data, title, id, b
           title={title}
           action={
             <div>
+              <IconButton onClick={() => reorderBlocks(index, index - 1)}>
+                <Icon>arrow_upward</Icon>
+              </IconButton>
+              <IconButton onClick={() => reorderBlocks(index, index + 1)}>
+                <Icon>arrow_downward</Icon>
+              </IconButton>
               <IconButton onClick={toggleEditConfig}>
                 <Icon>{editConfig ? 'expand_less': 'expand_more'}</Icon>
               </IconButton>

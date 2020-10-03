@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { DragPreviewImage, DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
+import { DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
 import styled from 'styled-components';
 
 enum ItemTypes {
@@ -56,22 +56,16 @@ const SortingList: React.FC<SortingListProps> = ({items, reorderItems, placehold
   return (
     <div ref={drop} style={{paddingBottom: '100px', paddingTop: '10px'}}>
       {items.length > 0 && itemsWithPlaceholder.map((item: SortingListItemType, index: number) => <ListItem key={item.id} index={index} item={item.item} reorderItems={reorderItems} setPlaceholderIndex={setPlaceholderIndex}/>)}
-      {items.length === 0 && <div style={{lineHeight: '200px', border: '2px dotted #ccc', backgroundColor: '#eee', textAlign: 'center'}}>Drop block here...</div>}
+      {items.length === 0 && <div style={{lineHeight: '200px', border: '2px dotted #ccc', backgroundColor: '#eee', textAlign: 'center'}}>Click or Drop form block here...</div>}
     </div>
   );
 };
 
-
 const ExternalListItem: React.FC<ExternalListItemProps> = ({item, config}) => {
-  const [, drag, preview] = useDrag({
+  const [, drag] = useDrag({
     item: { type: ItemTypes.EXTERNAL_LIST_ITEM, config },
   });
-  return (
-    <>
-      <DragPreviewImage src='https://via.placeholder.com/150' connect={preview}></DragPreviewImage>
-      <div ref={drag} style={{cursor: 'grab'}}>{item}</div>
-    </>
-  );
+  return <div ref={drag} style={{cursor: 'grab'}}>{item}</div>;
 }
 
 const ListItem: React.FC<ListItemProps> = ({index, reorderItems, item, setPlaceholderIndex}) => {
