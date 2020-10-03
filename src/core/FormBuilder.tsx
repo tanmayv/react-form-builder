@@ -4,10 +4,10 @@ import Paper from "@material-ui/core/Paper";
 import Icon from "@material-ui/core/Icon";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { Typography } from "@material-ui/core";
 
 import SortingList, { ExternalListItem } from "./darg-drop/SortingList";
 import BlockConfigurator, { ConfigProps } from "./blockconfig/BlockConfigurator";
-import { Typography } from "@material-ui/core";
 
 export interface FormBuilderBlockConfig {
   iconClass: string;
@@ -93,12 +93,12 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
   const blockToolViewContainer = Object.keys(registry).map((blockType: string, idx: number) => {
     const config = registry[blockType];
     const item = (
-      <Paper variant="outlined" style={{ marginTop: "8px" }} key={idx} onClick={e => addNewBlock({config : blockType}, 0)}>
-        <Grid container alignItems="center" justify="center" spacing={1}>
-          <Grid item><Icon>{config.iconClass}</Icon></Grid>
-          <Grid item><Typography variant='subtitle1'>{config.title}</Typography></Grid>
-        </Grid>
-      </Paper>
+        <Paper variant="outlined" style={{ marginTop: "8px" }} key={idx} onClick={e => addNewBlock({config : blockType}, 0)}>
+          <Grid container alignItems="center" justify="center" spacing={1}>
+            <Grid item><Icon>{config.iconClass}</Icon></Grid>
+            <Grid item><Typography variant='subtitle1'>{config.title}</Typography></Grid>
+          </Grid>
+        </Paper>
     );
     return (
       <ExternalListItem item={item} config={blockType} key={blockType}></ExternalListItem>

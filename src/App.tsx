@@ -8,6 +8,7 @@ import CheckboxComponent from './custom-component/Checkbox';
 import DateComponent from './custom-component/DateComponent';
 import EditTextComponent from './custom-component/EditTextComponent';
 import HeadingComponent from './custom-component/HeadingComponent';
+import ImageComponent from './custom-component/ImageComponent';
 import NumberComponent from './custom-component/NumberComponent';
 import ParagraphComponent from './custom-component/ParagraphComponent';
 import TextAreaComponent from './custom-component/TextAreaComponent';
@@ -58,6 +59,11 @@ const App: React.FC<{}> = () => {
         handler: TextAreaComponent,
         title: 'Text Area',
         iconClass: 'view_headline'
+      },
+      image: {
+        handler: ImageComponent,
+        title: 'Image',
+        iconClass: 'wallpaper'
       },
     },
     data: {
