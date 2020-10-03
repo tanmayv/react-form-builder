@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, CardHeader, Collapse, Icon, IconButton } from '@material-ui/core';
+import { Card, CardActions, CardContent, CardHeader, Collapse, Icon, IconButton, Typography } from '@material-ui/core';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import BlockConfigForm from './BlockConfigForm';
@@ -68,7 +68,8 @@ const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({index, data, title
       useMemo(() => (
         <Card style={{marginBottom: '16px'}}>
           <CardHeader
-            title={title}
+            title={`${title}:${properties.name || ''}`}
+            titleTypographyProps={{variant: 'h6'}}
             action={
               <div>
                 <IconButton onClick={() => reorderBlocks(index, index - 1)}>
@@ -86,14 +87,13 @@ const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({index, data, title
               </div>
             }
           ></CardHeader>
-          <CardContent>
-            {<Block {...blockProps}></Block>}
-          </CardContent>
-          <CardActions>
           <Collapse in={editConfig} timeout="auto" unmountOnExit>
+            <CardContent>
+            <Typography variant='subtitle2' component='h1'>Preview</Typography>
+            {<Block {...blockProps}></Block>}
             <BlockConfigForm {...blockProps} formData={formData}></BlockConfigForm>
+            </CardContent>
           </Collapse>
-          </CardActions>
         </Card>
       ), [properties, editConfig, index])
     );

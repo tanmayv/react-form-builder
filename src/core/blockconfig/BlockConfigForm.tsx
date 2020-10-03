@@ -60,7 +60,7 @@ const BlockConfigForm: React.FC<BlockConfigFormProps> = ({formData, properties, 
     return <div>Input not found</div>;
   });
   return (
-    <div style={{padding: '8px 16px'}}>
+    <div style={{padding: '8px 0px'}}>
       <form>
         <Grid container spacing={3}>
           <Grid item xs={12}>
