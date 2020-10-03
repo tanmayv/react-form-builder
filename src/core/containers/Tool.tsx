@@ -9,12 +9,14 @@ export interface ToolProps {
 
 const Tool: React.FC<ToolProps> = ({onClick, iconClass, title}) => {
   return (
-    <Paper variant="outlined" style={{ marginTop: "8px" }} >
-      <Grid container alignItems="center" justify="center" spacing={1}>
-        <Grid item><Icon>{iconClass}</Icon></Grid>
-        <Grid item><Typography variant='subtitle1'>{title}</Typography></Grid>
-      </Grid>
-    </Paper>
+    <div onClick={onClick}>
+      <Paper variant="outlined" style={{ marginTop: "8px" }} >
+        <Grid container alignItems="center" justify="center" spacing={1}>
+          <Grid item><Icon>{iconClass}</Icon></Grid>
+          <Grid item><Typography variant='subtitle1'>{title}</Typography></Grid>
+        </Grid>
+      </Paper>
+    </div>
   );
 };
 
