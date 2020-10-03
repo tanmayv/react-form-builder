@@ -8,6 +8,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import SortingList, { ExternalListItem } from "./darg-drop/SortingList";
 import BlockConfigurator, { ConfigProps } from "./blockconfig/BlockConfigurator";
 import { Typography } from "@material-ui/core";
+import { TouchBackend } from "react-dnd-touch-backend";
 
 export interface FormBuilderBlockConfig {
   iconClass: string;
@@ -103,7 +104,7 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
   });
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={TouchBackend}>
       <Grid container spacing={3}>
         <Grid item xs={9}>
 					<SortingList

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
+import { DragPreviewImage, DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
 import styled from 'styled-components';
 
 enum ItemTypes {
@@ -32,11 +32,13 @@ export interface SortingListProps {
   reorderItems: (fromIndex: number, toIndex: number) => void,
   externalItemDropped: (item: any, index: number) => void
 }
+
 const DefaultPlaceholder = styled.div`
   height: 100px;
   border: 2px dotted #ccc;
   margin-bottom: 16px;
 `;
+
 const SortingList: React.FC<SortingListProps> = ({items, reorderItems, placeholder, externalItemDropped}) => {
   const [ placeHolderIndex, setPlaceholderIndex ] = useState(-1);
   const placeHolderItem = {
@@ -61,10 +63,15 @@ const SortingList: React.FC<SortingListProps> = ({items, reorderItems, placehold
 
 
 const ExternalListItem: React.FC<ExternalListItemProps> = ({item, config}) => {
-  const [, drag] = useDrag({
+  const [, drag, preview] = useDrag({
     item: { type: ItemTypes.EXTERNAL_LIST_ITEM, config },
   });
-  return <div ref={drag} style={{cursor: 'grab'}}>{item}</div>;
+  return (
+    <>
+      <DragPreviewImage src='https://via.placeholder.com/150' connect={preview}></DragPreviewImage>
+      <div ref={drag} style={{cursor: 'grab'}}>{item}</div>
+    </>
+  );
 }
 
 const ListItem: React.FC<ListItemProps> = ({index, reorderItems, item, setPlaceholderIndex}) => {
