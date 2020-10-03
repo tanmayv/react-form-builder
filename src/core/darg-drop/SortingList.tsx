@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { DropTargetMonitor, useDrag, useDrop, XYCoord } from 'react-dnd';
+import styled from 'styled-components';
 
 enum ItemTypes {
   SORT_LIST_ITEM = 'sort-list-item',
@@ -31,12 +32,16 @@ export interface SortingListProps {
   reorderItems: (fromIndex: number, toIndex: number) => void,
   externalItemDropped: (item: any, index: number) => void
 }
-
+const DefaultPlaceholder = styled.div`
+  height: 100px;
+  border: 2px dotted #ccc;
+  margin: 0px 16px;
+`;
 const SortingList: React.FC<SortingListProps> = ({items, reorderItems, placeholder, externalItemDropped}) => {
   const [ placeHolderIndex, setPlaceholderIndex ] = useState(-1);
   const placeHolderItem = {
     id: 'placeholder',
-    item: !!placeholder ? placeholder : <div style={{height: '100px'}}></div>
+    item: !!placeholder ? placeholder : <DefaultPlaceholder/>
   }
   const itemsWithPlaceholder = placeHolderIndex > -1? items.slice(0, placeHolderIndex).concat(placeHolderItem).concat(items.slice(placeHolderIndex)) : items;
   const [, drop] = useDrop({

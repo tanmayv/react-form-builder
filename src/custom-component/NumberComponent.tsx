@@ -7,9 +7,9 @@ import { ConfigProps } from '../core/blockconfig/BlockConfigurator';
 const NumberComponent: React.FC<ConfigProps> = ({ createProperty, properties, change }) => {
   useEffect(() => {
     createProperty(PropertyType.NUMBER, 'value', 1);
-    createProperty(PropertyType.STRING, 'label', 'What is your age?');
-    createProperty(PropertyType.STRING, 'name', 'age-question');
-    createProperty(PropertyType.STRING, 'placeholder', 'enter age');
+    createProperty(PropertyType.STRING, 'label', 'Question?');
+    createProperty(PropertyType.STRING, 'name', '');
+    createProperty(PropertyType.STRING, 'placeholder', '');
   }, []);
 
   return (

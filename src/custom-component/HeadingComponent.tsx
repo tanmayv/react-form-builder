@@ -7,8 +7,8 @@ import { PropertyType } from '../core/blockconfig/PropertyType';
 const HeadingComponent: React.FC<ConfigProps> = ({ createProperty, properties }) => {
   const variantOptions = ['h1', 'h2', 'h3', 'h4', 'h5', 'subtitle1', 'subtitle2', 'caption'];
   useEffect(() => {
-    createProperty(PropertyType.STRING, 'label', 'Heading');
-    createProperty(PropertyType.STRING_OPTIONS, 'variant', {options: variantOptions, selected: 'h5'});
+    createProperty(PropertyType.STRING, 'label', 'Title');
+    createProperty(PropertyType.STRING_OPTIONS, 'variant', {options: variantOptions, selected: 'h4'});
   }, []);
   const variant = properties.variant && properties.variant.selected;
   return (

@@ -6,8 +6,8 @@ import { ConfigProps } from "../core/blockconfig/BlockConfigurator";
 
 const EditTextComponent: React.FC<ConfigProps> = ({createProperty, properties, change}) => {
   useEffect(() => {
-    createProperty(PropertyType.STRING, "answer", "");
-    createProperty(PropertyType.STRING, "label", "What is this?");
+    createProperty(PropertyType.STRING, "value", "");
+    createProperty(PropertyType.STRING, "label", "Question?");
     createProperty(PropertyType.BOOLEAN, "required", false);
   }, []);
   return (
@@ -16,9 +16,9 @@ const EditTextComponent: React.FC<ConfigProps> = ({createProperty, properties, c
         fullWidth
         label={properties.label}
         type="text"
-        placeholder="answer here"
-        value={properties.answer || ""}
-        onChange={(event) => change({ answer: event.target.value })}
+        placeholder="type here"
+        value={properties.value || ""}
+        onChange={(event) => change({ value: event.target.value })}
       />
     </div>
   );

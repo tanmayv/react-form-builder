@@ -42,9 +42,9 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
 
   const addNewBlock = (item: any, index: number) => {
       change((blocks) => {
-        const newBlocks = [...blocks];
+        const newBlocks = [...(blocks || [])];
         newBlocks.splice(index, 0, {
-          id: blocks.length + 1,
+          id: newBlocks.length + 1,
           type: item.config,
           data: {},
 				});
@@ -107,10 +107,10 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
       <Grid container spacing={3}>
         <Grid item xs={9}>
 					<SortingList
-					reorderItems={reorderItems}
-					items={blockList}
-					externalItemDropped={addNewBlock}
-					></SortingList>
+            reorderItems={reorderItems}
+            items={blockList}
+            externalItemDropped={addNewBlock}
+					/>
 				</Grid>
         <Grid item xs={3}>
           {blockToolViewContainer}

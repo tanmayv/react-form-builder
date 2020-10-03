@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { PropertyType } from '../core/blockconfig/PropertyType';
 const CheckboxComponent: React.FC<any> = ({createProperty, properties, change}) => {
   useEffect(() => {
-    createProperty(PropertyType.STRING, 'label', 'What is this?');
+    createProperty(PropertyType.STRING, 'label', 'Choice');
     createProperty(PropertyType.STRING_ARRAY, 'options', ['Yes', 'No']);
     createProperty(PropertyType.STRING_ARRAY, 'selected', []);
   }, []);
