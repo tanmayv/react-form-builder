@@ -21,7 +21,8 @@ const BlockConfigForm: React.FC<BlockConfigFormProps> = ({formData, properties, 
     switch(type) {
       case PropertyType.NUMBER :
       case PropertyType.STRING : {
-        const onChange = (event: any) => changeOne(key, event.target.value); 
+        const parser = type === PropertyType.NUMBER ? parseInt: (s: any) => s;
+        const onChange = (event: any) => changeOne(key, parser(event.target.value)); 
           return <Grid item key={key} sm={6} xs={12}><TextField fullWidth variant={inputVariant} name={key} label={key} type={type} value={property || ''} onChange={onChange}/></Grid>;
       }
 

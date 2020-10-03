@@ -11,6 +11,7 @@ import HeadingComponent from './custom-component/HeadingComponent';
 import ImageComponent from './custom-component/ImageComponent';
 import NumberComponent from './custom-component/NumberComponent';
 import ParagraphComponent from './custom-component/ParagraphComponent';
+import RadioButtonComponent from './custom-component/RadioButtonComponent';
 import RatingComponent from './custom-component/RatingComponent';
 import TextAreaComponent from './custom-component/TextAreaComponent';
 import Home from './Home';
@@ -69,7 +70,12 @@ const App: React.FC<{}> = () => {
       rating: {
         handler: RatingComponent,
         title: 'Rating',
-        iconClass: 'wallpaper'
+        iconClass: 'star'
+      },
+      radio: {
+        handler: RadioButtonComponent,
+        title: 'Radio button',
+        iconClass: 'radio_button_checked'
       },
     },
     data: {
