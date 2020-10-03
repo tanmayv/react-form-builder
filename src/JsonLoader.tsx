@@ -37,7 +37,7 @@ const JsonLoader: React.FC<any> = ({loadJson}) => {
   
   return (
     <div>
-      <Button color="inherit" onClick={handleClickOpen}>Load from json</Button>
+      <Button color="inherit" onClick={handleClickOpen}>Import</Button>
         <Dialog fullScreen open={open} onClose={handleClose} >
           <AppBar className={classes.appBar}>
             <Toolbar>
@@ -70,7 +70,7 @@ const JsonLoader: React.FC<any> = ({loadJson}) => {
                 <Typography variant='subtitle1'>Or Select one of the example forms:</Typography>
               </Grid>
               {defaultForms.map((form, index) => (
-                <Grid container spacing={3} item key={index}>
+                <Grid container spacing={3} item key={index} alignItems='center'>
                   <Grid item xs={9}>
                     <TextField
                       fullWidth
@@ -81,7 +81,7 @@ const JsonLoader: React.FC<any> = ({loadJson}) => {
                     />
                   </Grid>
                   <Grid item xs={3}>
-                    <Button variant="contained" color="secondary" onClick={() => setJsonString(JSON.stringify(form))}>
+                    <Button variant="contained" color="secondary" onClick={() => {loadJson(form); setOpen(false);}}>
                       Load Form
                     </Button>
                   </Grid>
