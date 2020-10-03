@@ -1,5 +1,5 @@
 import { Card, CardActions, CardContent, CardHeader, Collapse, Icon, IconButton } from '@material-ui/core';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import BlockConfigForm from './BlockConfigForm';
 import { PropertyType } from './PropertyType';
@@ -65,36 +65,38 @@ const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({index, data, title
   const toggleEditConfig = () => setEditConfig((current) => !current);
   const Block = block;
   return (
-      <Card style={{marginBottom: '16px'}}>
-        <CardHeader
-          title={title}
-          action={
-            <div>
-              <IconButton onClick={() => reorderBlocks(index, index - 1)}>
-                <Icon>arrow_upward</Icon>
-              </IconButton>
-              <IconButton onClick={() => reorderBlocks(index, index + 1)}>
-                <Icon>arrow_downward</Icon>
-              </IconButton>
-              <IconButton onClick={toggleEditConfig}>
-                <Icon>{editConfig ? 'expand_less': 'expand_more'}</Icon>
-              </IconButton>
-              <IconButton color='secondary' onClick={(event) => removeBlock(id)}>
-                <Icon>delete</Icon>
-              </IconButton>
-            </div>
-          }
-        ></CardHeader>
-        <CardContent>
-          {<Block {...blockProps}></Block>}
-        </CardContent>
-        <CardActions>
-        <Collapse in={editConfig} timeout="auto" unmountOnExit>
-          <BlockConfigForm {...blockProps} formData={formData}></BlockConfigForm>
-        </Collapse>
-        </CardActions>
-      </Card>
-  );
+      useMemo(() => (
+        <Card style={{marginBottom: '16px'}}>
+          <CardHeader
+            title={title}
+            action={
+              <div>
+                <IconButton onClick={() => reorderBlocks(index, index - 1)}>
+                  <Icon>arrow_upward</Icon>
+                </IconButton>
+                <IconButton onClick={() => reorderBlocks(index, index + 1)}>
+                  <Icon>arrow_downward</Icon>
+                </IconButton>
+                <IconButton onClick={toggleEditConfig}>
+                  <Icon>{editConfig ? 'expand_less': 'expand_more'}</Icon>
+                </IconButton>
+                <IconButton color='secondary' onClick={(event) => removeBlock(id)}>
+                  <Icon>delete</Icon>
+                </IconButton>
+              </div>
+            }
+          ></CardHeader>
+          <CardContent>
+            {<Block {...blockProps}></Block>}
+          </CardContent>
+          <CardActions>
+          <Collapse in={editConfig} timeout="auto" unmountOnExit>
+            <BlockConfigForm {...blockProps} formData={formData}></BlockConfigForm>
+          </Collapse>
+          </CardActions>
+        </Card>
+      ), [properties, editConfig])
+    );
 }
 
 export default BlockConfigurator;
