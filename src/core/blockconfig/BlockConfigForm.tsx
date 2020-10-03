@@ -47,7 +47,7 @@ const BlockConfigForm: React.FC<BlockConfigFormProps> = ({formData, properties, 
         const menuItems = (property.options || []).map((value: string, idx: number) => <option key={idx} value={value}>{value}</option>);
         return (
           <Grid item key={idx} sm={6} xs={12}>
-            <FormControl variant={inputVariant}>
+            <FormControl variant={inputVariant} fullWidth>
                 <InputLabel id="demo-simple-select-label">{key}</InputLabel>
                 <Select fullWidth native name={key} label={key} value={property.selected} onChange={onChange}>
                   {menuItems}
