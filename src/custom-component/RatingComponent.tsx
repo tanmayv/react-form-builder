@@ -14,7 +14,7 @@ const RatingComponent: React.FC<ConfigProps> = ({ createProperty, properties, ch
   return (
     <Grid container>
       {Array.from(Array(maxStars)).map((_, index) =>
-        <Grid item xs={1}>
+        <Grid item xs={1} key={index}>
           <IconButton color={starColor(index)} onClick={e => change({rating: (index + 1)})}><Icon>star</Icon></IconButton>
         </Grid>)
       }

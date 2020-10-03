@@ -46,7 +46,7 @@ const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => 
       change((blocks) => {
         const newBlocks = [...(blocks || [])];
         newBlocks.splice(index, 0, {
-          id: newBlocks.length + 1,
+          id: Math.ceil(Math.random() * 100000),
           type: item.config,
           data: {},
 				});

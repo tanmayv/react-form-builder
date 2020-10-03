@@ -14,7 +14,7 @@ const ImageComponent: React.FC<ConfigProps> = ({ createProperty, properties }) =
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}><img width='100%' src={properties.url}/></Grid>
-      {properties.showCaption && <Grid item xs={12}><TextField fullWidth value={properties.caption} variant='outlined'/></Grid>}
+      {properties.showCaption && <Grid item xs={12}><TextField fullWidth value={properties.caption} variant='outlined' style={{pointerEvents: 'none'}}/></Grid>}
     </Grid>
   );
 };
