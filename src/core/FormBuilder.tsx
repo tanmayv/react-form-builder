@@ -1,10 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Icon from "@material-ui/core/Icon";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Typography } from "@material-ui/core";
 
 import SortingList, { ExternalListItem } from "./darg-drop/SortingList";
 import BlockConfigurator, { ConfigProps } from "./blockconfig/BlockConfigurator";
@@ -26,15 +23,16 @@ export interface BlockData {
 export interface FormBuilderProps {
   data?: { blocks: BlockData[] };
 	registry: { [key: string]: FormBuilderBlockConfig };
-	viewOnly?: boolean;
 	change: (cb: (currentBlocks: BlockData[]) => BlockData[]) => void; 
 }
 
 const StickyDiv = styled.div`
   position: sticky;
-  top: 135px;
-  max-height: calc(100vh - 135px);
-  overflow-y: scroll;
+  top: 130px;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 5px 0px;
 `;
 
 const FormBuilder: React.FC<FormBuilderProps> = ({ data, registry, change }) => {

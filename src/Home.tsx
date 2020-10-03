@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { AppBar, Container, Icon, IconButton, makeStyles, Tab, Tabs, TextField, Toolbar } from '@material-ui/core';
 import { GitHub } from '@material-ui/icons';
 

@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, CardHeader, Collapse, Grid, Icon, IconButton, Typography } from '@material-ui/core';
+import { Card, CardActions, CardContent, Collapse, Grid, Icon, IconButton } from '@material-ui/core';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import BlockConfigForm from './BlockConfigForm';

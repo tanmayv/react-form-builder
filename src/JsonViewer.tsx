@@ -1,4 +1,4 @@
-import { Button, Grid, Icon, IconButton, Paper, Typography } from '@material-ui/core';
+import { Button, Grid, Paper, Typography } from '@material-ui/core';
 import React, { createRef, useEffect } from 'react';
 import styled from 'styled-components';
 

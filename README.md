@@ -1,44 +1,90 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Get started
+```
+npm install
+npm start
+```
 
-In the project directory, you can run:
+## Features
+- Drag and drop to create forms.
+- Register new blocks tools.
+- Preview form
+- Export form to json
+- Import form from json
 
-### `npm start`
+## API
+### Form Builder
+| Prop | Type  | Detail  |
+|---|---|---|
+| data | {blocks: BlockData[]} | List of blocks in the form. |
+| registry | [key: string]: FormBuilderBlockConfig  | Register block handler to new block types. |
+| change | (cb: (currentBlocks: BlockData[]) => BlockData[]) => void;  | CB to change block list. |
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### BlockData
+| Prop | Type  | Detail  |
+|---|---|---|
+| id | any | Unique id for the block in the block list |
+| type | string | Type of block handler for the block |
+| data | properties  | Map of properties required by the handler. |
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### FormBuilderBlockConfig
+| Prop | Type  | Detail  |
+|---|---|---|
+| iconClass | string | iconClass accepted by material-ui's icon that will be rendered in block tool |
+| type | string | Type of the block which will handled by the handler |
+| handler | React.Component\<ConfigProps\> | Component that will rendered for the block. Block data is passed as props to this component.  |
 
-### `npm test`
+### ConfigProps
+| Prop | Type  | Detail  |
+|---|---|---|
+| properties | any | customer properties required by the handler. |
+| change | (property: any) => void; | CB to change a property in properties |
+| changeOne | (propertyName: string, propertyValue: any) => void;  | CB to change a property in properties by key |
+| createProperty | (type: PropertyType, name: string, defaultValue: any) => void; | Create a new property which can be of type `string | number | string-array | string-options | boolean` |
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> Based on properties, each block has a generated form that can be used to update those property from UI as well. ConfigProps are used to register any property type that is required by custom block handler.
 
-### `npm run build`
+## Create custom block handler
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Step 1: Create a new React component that received ConfigProps.
+```
+const ImageComponent: React.FC<ConfigProps> = ({}) ={
+  // ...
+}
+``` 
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Step 2: Create properties required by the componenet.
+These properties will be stored in json object, and will passed when block needs to be rendered. `Name` and `Label` are default properties.
+In this component, we need url property to render the image. Properties need to be registered in inside useEffect() so that they are only created once.
+```
+  const ImageComponent: React.FC<ConfigProps> = ({createProperty}) ={
+    useEffect(() => {
+      createProperty(PropertyType.STRING, 'url', 'https://picsum.photos/600/400');
+    }, []);
+  }
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Step 3: Render component based on properties.
+```
+  const ImageComponent: React.FC<ConfigProps> = ({createProperty, properties}) ={
+    useEffect(() => {
+      createProperty(PropertyType.STRING, 'url', 'https://picsum.photos/600/400');
+    }, []);
+    return <img src={properties.url}/>
+  }
+```
 
-### `npm run eject`
+### Step 4: Register block handle to the registry
+```
+const builderProps: FormBuilderProps = {
+    registry: { 
+      image: {
+        handler: ImageComponent,
+        title: 'Image',
+        iconClass: 'image'
+      },
+      // ...
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+  <FormBuilder {...builderProps}/>
+```

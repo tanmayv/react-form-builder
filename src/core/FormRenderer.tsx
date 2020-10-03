@@ -1,5 +1,5 @@
 import { Container, Grid, Paper, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { BlockData } from './FormBuilder';
 
