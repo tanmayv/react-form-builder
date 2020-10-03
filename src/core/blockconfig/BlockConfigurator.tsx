@@ -95,7 +95,7 @@ const BlockConfigurator: React.FC<BlockConfiguratorProps> = ({index, data, title
           </Collapse>
           </CardActions>
         </Card>
-      ), [properties, editConfig])
+      ), [properties, editConfig, index])
     );
 }
 

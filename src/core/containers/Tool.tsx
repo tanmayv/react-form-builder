@@ -8,7 +8,6 @@ export interface ToolProps {
 }
 
 const Tool: React.FC<ToolProps> = ({onClick, iconClass, title}) => {
-  console.log('Tool', title);
   return (
     <Paper variant="outlined" style={{ marginTop: "8px" }} >
       <Grid container alignItems="center" justify="center" spacing={1}>

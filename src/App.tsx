@@ -84,8 +84,6 @@ const App: React.FC<{}> = () => {
     change: (newBlocks) => setFormData((oldFormData: FormData) => ({...oldFormData, blocks: newBlocks(oldFormData.blocks)}))
   };
   
-  const title = <TextField value={formData.title}
-                  onChange={event => {event.persist(); setFormData((oldFormData) => ({...oldFormData, title: event.target.value}))}}/>;
   const jsonLoaderAction = <JsonLoader loadJson={(jsonData: any) => setFormData(jsonData)}/>;
   const builderTab = (
     <div>
@@ -97,7 +95,8 @@ const App: React.FC<{}> = () => {
   );
   const previewTab = <FormRenderer {...builderProps} title={formData.title}/>;
   
-  return <Home title={title} action={jsonLoaderAction} leftTab={builderTab} rightTab={previewTab}/>
+  return <Home title={formData.title} action={jsonLoaderAction} leftTab={builderTab} rightTab={previewTab}
+    titleChange={(title: string) => setFormData(oldData => ({...oldData, title}))}/>
 }
 
 export default App;
