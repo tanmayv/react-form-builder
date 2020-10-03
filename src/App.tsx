@@ -27,6 +27,21 @@ const App: React.FC<{}> = () => {
   const [ formData, setFormData ] = useState<FormData>({ title: 'Untitled Form', blocks: [] });
   const builderProps: FormBuilderProps = {
     registry: { 
+      heading: {
+        handler: HeadingComponent,
+        title: 'Heading',
+        iconClass: 'text_fields'
+      },
+      paragraph: {
+        handler: ParagraphComponent,
+        title: 'Paragraph',
+        iconClass: 'subject'
+      },
+      image: {
+        handler: ImageComponent,
+        title: 'Image',
+        iconClass: 'wallpaper'
+      },
       text: {
         handler: EditTextComponent,
         title: 'Edit Text',
@@ -37,15 +52,15 @@ const App: React.FC<{}> = () => {
         title: 'Number',
         iconClass: 'plus_one'
       },
-      heading: {
-        handler: HeadingComponent,
-        title: 'Heading',
-        iconClass: 'text_fields'
+      textArea: {
+        handler: TextAreaComponent,
+        title: 'Text Area',
+        iconClass: 'view_headline'
       },
-      paragraph: {
-        handler: ParagraphComponent,
-        title: 'Paragraph',
-        iconClass: 'subject'
+      radio: {
+        handler: RadioButtonComponent,
+        title: 'Radio',
+        iconClass: 'radio_button_checked'
       },
       checkbox: {
         handler: CheckboxComponent,
@@ -57,25 +72,10 @@ const App: React.FC<{}> = () => {
         title: 'Date Picker',
         iconClass: 'today'
       },
-      textArea: {
-        handler: TextAreaComponent,
-        title: 'Text Area',
-        iconClass: 'view_headline'
-      },
-      image: {
-        handler: ImageComponent,
-        title: 'Image',
-        iconClass: 'wallpaper'
-      },
       rating: {
         handler: RatingComponent,
         title: 'Rating',
         iconClass: 'star'
-      },
-      radio: {
-        handler: RadioButtonComponent,
-        title: 'Radio button',
-        iconClass: 'radio_button_checked'
       },
     },
     data: {
