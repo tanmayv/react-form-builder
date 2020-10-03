@@ -11,7 +11,6 @@ const NumberComponent: React.FC<ConfigProps> = ({ createProperty, properties, ch
     createProperty(PropertyType.STRING, 'name', '');
     createProperty(PropertyType.STRING, 'placeholder', '');
   }, []);
-
   return (
     <div>
       <TextField fullWidth label={properties.label} type='number' placeholder='answer here' value={properties.value || 0} onChange={(event) => change({value : event.target.value})}/>
